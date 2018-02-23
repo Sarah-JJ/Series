@@ -92,7 +92,7 @@
 
 
     <div class="row justify-content-center mt-3">
-        <div class="col-md-7">
+        <div class="col-md-9">
             <div class="card">
                 <div class="card-body p-0">
                     <table class="table">
@@ -122,7 +122,7 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center mt-2">
+    <div class="row justify-content-center mt-3 mb-5">
         <div class="col-md-2">
             <button class="btn btn-dark" @click="openAddModal()">Add New Series</button>
 
@@ -156,6 +156,12 @@
                 description: "",
                 genre: "",
                 image: "",
+                avgRating: 0,
+                count: 0,
+                ratings: [],
+                currentStarRating: 0,
+                emptyStars: 5,
+
             },
             editingShow: {
                 name: "",

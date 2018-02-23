@@ -7,12 +7,16 @@ mongoose.connect('mongodb://Sarah:Naruto22@ds243008.mlab.com:43008/tvseries').th
 }).catch(function (error) {
     console.log(error.message)
 });
-
 var Show = mongoose.model('Show', {
     name: String,
     description: String,
     image: String,
-    genre: String
+    genre: String,
+    avgRating: Number,
+    count: Number,
+    ratings: Array,
+    currentStarRating: Number,
+    emptyStars: Number,
 });
 
 
@@ -70,7 +74,7 @@ router.put('/shows', function (req, res) {
     Show.findByIdAndUpdate(editedShow._id, editedShow).then(function () {
         res.json({
             isEdited: true,
-            message: "Cartoon Updated!"
+            message: "Show Updated!"
         });
     }).catch(function (error) {
         res.json({
@@ -80,9 +84,7 @@ router.put('/shows', function (req, res) {
     });
 
 });
-router.get('/main2', function (req, res) {
-    res.render('mainptry');
-});
+
 
 router.get('/showSearch', function (req, res) {
     var searchParam = titleCase(req.param('name'));

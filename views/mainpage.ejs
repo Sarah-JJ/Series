@@ -18,6 +18,10 @@
 
     <style>
 
+        .stars img{
+            cursor: pointer;
+        }
+
         .navButton {
             border: 0px;
         }
@@ -28,17 +32,6 @@
 
         #contactUs {
             display: block;
-        }
-
-        #contactUs img {
-            height: 30px;
-            width: 30px;
-            margin: 6px 2px 3px 2px;
-        }
-
-
-        #headerBanner {
-            margin-top: 0;
         }
 
         /*carousel*/
@@ -81,7 +74,7 @@
     </style>
 </head>
 
-<body class="bg-light" id="bodyElement">
+<body class="bg-light">
 
 <span id="root">
 
@@ -91,7 +84,6 @@
       </span>
 
 
-        <!-- pssst: make me an array and send me on click-->
          <span class="nav-scroller p-0 mb-0 navbar-dark bg-dark">
            <nav class="nav d-flex justify-content-between">
             <a v-for="genre in genres" @click="searchByGenre(genre)" class="p-2 text-muted navButton bg-dark" href="#" id="genreLinks">{{genre}}</a>
@@ -150,47 +142,37 @@
 
     <div class="row justify-content-center mb-2">
 
-         <div class="col-md-4" v-for="(show, index) in shows" v-if="index<=2">
-                <div class="card mb-4 box-shadow">
-                    <img class="card-img-top"
-                         :src="show.image"
-                         style="height: 225px; width: 100%; display: block;">
-                    <div class="card-body">
-                        <p class="card-text"><b>{{show.name}}</b>
-                        <div>{{show.description}}</div>
-                        </p>
-                        <p class="card-text"></p>
-
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group"></div>
-                            <small class="text-muted">{{show.genre}}</small>
-                        </div>
-                    </div>
-                </div>
-         </div>
-
-
-    </div>
-</div>
-
-<div class="container">
-    <div class="row justify-content-center">
-
-        <div class="col-md-6" v-for="(show, index) in shows" v-if="index>=3">
+                    <div class="col-md-6" v-for="(show, index) in shows">
                 <div class="card mb-4">
                     <h3 class="card-title m-3">{{show.name}}</h3>
 
                     <img class="card-img-top" :src="show.image" style="height: 225px; width: 100%; display: block;">
                     <div class="card-body">
+                        <div class="row d-flex justify-content-between align-items-center">
+                            <div class="col-6 col-md-8 text-muted mr-2 mb-1">{{show.genre}}</div>
+
+                            <div class="stars ml-2">
+                                <div class="text-muted" v-if="show.avgRating">Rating: {{show.avgRating}}, <small>{{show.ratings.length}} votes</small></div>
+
+                                <div class="btn-group" v-for="(star, index) in stars">
+                                    <img :src="starImage.full" style="height: 20px; width: 20px"
+                                         v-if="(index < parseInt(show.avgRating))" @click="rate(show, star)">
+                                    <img :src="starImage.empty" style="height: 20px; width: 20px" @click="rate(show, star)"
+                                         v-else>
+                                </div>
+                            </div>
+
+                        </div>
                         <p class="card-text">{{show.description}}</p>
                     </div>
                 </div>
 
-        </div>
+            </div>
+         </div>
 
-    </div><!-- /.row -->
 
-</div><!-- /.container -->
+    </div>
+</div>
 
 <footer class="blog-footer">
 
@@ -199,12 +181,6 @@
 
             <div class="col-6 col-md-6"> A collection of TV series, made by me</div>
 
-            <div class="col-6 col-md-6">
-                <h6> Find us on: </h6>
-                <span class="list-unstyled" id="contactUs">
-                      <span v-for="img in contactUsImgs"><a href="#"><img :src="img"></a></span>
-                    </span>
-            </div>
         </div>
     </div>
 
@@ -234,16 +210,21 @@
     var v = new Vue({
         el: '#root',
         data: {
+            stars: [1, 2, 3, 4, 5],
+
+            starImage: {
+                full: 'https://www.3dinvesting.com/wp-content/uploads/2015/03/star_gold_256.png',
+                empty: 'https://vignette.wikia.nocookie.net/nation/images/c/c8/Star_empty.png/revision/latest?cb=20130407014809'
+            },
+
             shows: [],
 
             carouselImages: ["http://the-culture-counter.com/wp-content/uploads/2013/09/All-Hail-the-King.jpg",
                 "https://www.dccomics.com/sites/default/files/GalleryTV_1900x900_arrow_s3_alt_545bb1687ed4e4.45612658.jpg",
                 "https://img00.deviantart.net/3717/i/2013/087/2/e/hannibal_the_series_wallpaper_by_knightryder1623-d5zlxji.jpg"],
 
-            contactUsImgs: ["https://png.icons8.com/color/100/facebook.png", "https://png.icons8.com/color/100/twitter.png", "https://nationalpositions.com/wp-content/uploads/2016/10/l1.png"],
-            // genre: '',
             name: '',
-            genres: ['Action', 'Drama', 'Fantasy', 'Comedy', 'Horror', 'Supernatural', 'Psychological', 'Science Fiction']
+            genres: ['Action', 'Drama', 'Fantasy', 'Comedy', 'Horror', 'Supernatural', 'Psychological', 'Science Fiction'],
         },
         methods: {
             search: function () {
@@ -266,7 +247,27 @@
                 }).catch(function(error){
                     console.log(error);
                 })
-            }
+            },
+            rate: function (show, star) {
+                show.emptyStars = 5 - star;
+                console.log(star);
+                show.ratings.push(star);
+                show.count++;
+                var sum = 0;
+                for (i = 0; i < show.ratings.length; i++)
+                    sum += show.ratings[i]
+                show.avgRating = sum / show.count;
+                show.avgRating = Math.round(show.avgRating * 10) / 10;
+
+                show.currentStarRating = star;
+
+                axios.put('/shows', {show: show}).then(function (response) {
+                    if (response.data.isEdited) {
+                        getShows();
+                    }
+                })
+
+            },
         },
         mounted: function () {
             getShows();
