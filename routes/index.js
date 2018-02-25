@@ -88,7 +88,7 @@ router.put('/shows', function (req, res) {
 
 router.get('/showSearch', function (req, res) {
     var searchParam = titleCase(req.param('name'));
-    Show.find({'name': searchParam}, 'name genre description image', function (err, shows) {
+    Show.find({'name': searchParam}, 'name genre description image avgRating count ratings', function (err, shows) {
         if (err) console.log(err);
         //console.log(shows);
         res.json(shows);
@@ -121,6 +121,5 @@ router.get('/genreSearch', function (req, res) {
         res.json(resultShows);
     });
 })
-
 
 module.exports = router;
