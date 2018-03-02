@@ -8,7 +8,7 @@ It is expected that you have already installed Node.js on your computer, if you 
 
 #### Installation
 
-Install the dependencies run the project.
+Install the dependencies to run the project.
 ```sh
 $ npm install 
 ```
