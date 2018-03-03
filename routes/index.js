@@ -7,6 +7,7 @@ mongoose.connect('mongodb://Sarah:Naruto22@ds243008.mlab.com:43008/tvseries').th
 }).catch(function (error) {
     console.log(error.message)
 });
+
 var Show = mongoose.model('Show', {
     name: String,
     description: String,
@@ -37,7 +38,7 @@ router.get('/shows', function (req, res) {
 
 router.get('/editpage', function (req, res) {
     res.render('editpage')
-})
+});
 
 router.delete('/shows', function (req, res) {
     var id = req.param('id');
@@ -51,8 +52,8 @@ router.delete('/shows', function (req, res) {
             isDeleted: false,
             message: error.message
         });
-    })
-})
+    });
+});
 
 router.post('/shows', function (req, res) {
     var newShow = new Show(req.param('show'));
@@ -96,14 +97,13 @@ router.get('/showSearch', function (req, res) {
 });
 
 //the series in the database are stored as a string with each word starting with an upper-case letter, therefore when a user searches for a series name
-// we have to call this function to capitalize first letters, so it would match how the name is stored in the database
+//this function must be called to capitalize first letters, so it would match how the name is stored in the database
 function titleCase(str) {
     var splitStr = str.toLowerCase().split(' ');
     for (var i = 0; i < splitStr.length; i++) {
-
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
     }
-    // Directly return the joined string
+    //return the joined string
     return splitStr.join(' ');
 }
 
@@ -120,6 +120,6 @@ router.get('/genreSearch', function (req, res) {
         }
         res.json(resultShows);
     });
-})
+});
 
 module.exports = router;
