@@ -23,12 +23,8 @@ var Show = mongoose.model('Show', {
 
 /* GET home page. */
 router.get('/', function (req, res) {
-    res.render('index');
-});
-
-router.get('/mainpage', function (req, res) {
     res.render('mainpage');
-})
+});
 
 router.get('/shows', function (req, res) {
     Show.find(function (error, shows) {
