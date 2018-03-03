@@ -12,6 +12,11 @@
     <title>Content</title>
 </head>
 <body class="bg-light">
+<nav class="row navbar navbar-dark bg-dark justify-content-between" id="headerBanner">
+      <span class="ml-3 mr-3">
+          <a href="/" class="navbar-brand">TV Series</a>
+      </span>
+</nav>
 
 <div class="container" id="root">
     <!-- Modal -->
@@ -131,7 +136,6 @@
 </div>
 
 
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -211,7 +215,7 @@
                     }
                 })
             },
-            getShows: function() {
+            getShows: function () {
                 axios.get('/shows').then(function (response) {
                     app.shows = response.data;
                 });

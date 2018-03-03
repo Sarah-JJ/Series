@@ -13,7 +13,8 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../stylesheets/style.css">
 
-    <link rel="icon" type="image/png" href="http://peibusinessdirectory.net/wp-content/uploads/2015/03/PEI-TV-Stations.png">
+    <link rel="icon" type="image/png"
+          href="http://peibusinessdirectory.net/wp-content/uploads/2015/03/PEI-TV-Stations.png">
 
 
     <style>
@@ -26,8 +27,7 @@
 <span id="root">
 
     <nav class="row navbar sticky-top navbar-dark bg-dark justify-content-between" id="headerBanner">
-      <span class="ml-3 mr-3"><a href="/mainpage" class="navbar-brand">TV Series</a>
-          <a class="navbar-brand mx-3" href="/editpage">Edit</a>
+      <span class="ml-3 mr-3"><a href="/" class="navbar-brand">TV Series</a>
       </span>
 
 
@@ -37,11 +37,8 @@
            </nav>
          </span>
 
+                  <a class="navbar-brand mx-3" href="/editpage">Edit</a>
 
-        <div class="form-inline mr-3 mr-sm-2 ipnut-group-sm">
-            <input class="mr-1" type="text" v-model="name" @keyup.13="search()" placeholder="Search by name..">
-            <button @click="search()" class="btn btn-outline-light btn-sm my-2 my-sm-0 ">Search</button>
-        </div>
     </nav>
 
         <div id="myCarousel" class="carousel slide mb-4" data-ride="carousel">
@@ -86,6 +83,16 @@
 
 <div class="container">
 
+    <div class="row justify-content-center mt-5 mb-5" >
+            <div class="form-inline mr-3 mr-sm-2 ipnut-group">
+            <input class="form-control mr-1 px-5" type="text" v-model="name" @keyup.13="search()"
+                   placeholder="Search by name..">
+            <button @click="search()" class="btn btn-outline-dark my-2 my-sm-0 ">Search</button>
+                <!--</div>-->
+
+        </div>
+    </div>
+
 
     <div class="row justify-content-center mb-2">
 
@@ -93,7 +100,7 @@
                 <div class="shows card mb-4">
                     <h3 class="card-title m-3">{{show.name}}</h3>
 
-                    <img class="card-img-top img-fluid cardImages" :src="show.image" @click="redirect(show._id)">
+                    <img class="card-img-top img-fluid cardImages" :src="show.image">
                     <div class="card-body">
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="col-6 col-md-8 text-muted mr-2 mb-1">{{show.genre}}</div>
@@ -190,7 +197,7 @@
                     v.shows = response.data;
                 }).catch(function (error) {
                     console.log(error);
-                })
+                });
             },
             rate: function (show, star) {
                 show.ratings.push(star);
@@ -204,11 +211,12 @@
                 axios.put('/shows', {show: show}).then(function (response) {
                     if (response.data.isEdited) {
                         getShows();
-                    } else{
+                    } else {
                         alert(response.data.message);
                     }
                 })
             },
+
         },
         mounted: function () {
             getShows();

@@ -82,7 +82,6 @@ router.put('/shows', function (req, res) {
 
 });
 
-
 router.get('/showSearch', function (req, res) {
     var searchParam = titleCase(req.param('name'));
     Show.find({'name': searchParam}, 'name genre description image avgRating count ratings', function (err, shows) {
