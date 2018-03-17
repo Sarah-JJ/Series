@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://Sarah:Naruto22@ds243008.mlab.com:43008/tvseries').then(function () {
+mongoose.connect('mongodb://Sarah:22aPassword@ds243008.mlab.com:43008/tvseries').then(function () {
     console.log("Connected!")
 }).catch(function (error) {
     console.log(error.message)
